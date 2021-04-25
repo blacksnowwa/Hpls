@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Itim&display=swap");
+
+* {
+  font-family: "Poppins", "Itim", sans-serif;
+}
+
+#defalt {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#left {
+  display: flex;
+  background-color: #f2f2fc;
+}
+#left .nav {
+  display: flex;
+  min-width: 270px;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: #409eff82; */
+  background-color: #fff;
+  padding: 4rem 2rem;
+  border-right: 1px #e8dfec solid;
+}
+
+#left .nav-collaped{
+   display: none;
+    position: absolute;
+    height: 2.5em;
+    width: 2.5em;
+    /* background-color: #e8dfec; */
+    border: 0.1px solid #e8dfec;
+
+
+}
+
+#left .logo {
+  align-self: flex-start;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#left .nav .logo h1 {
+  text-align: left;
+  font-size: 48px;
+  color: #4a4a4a;
+  line-height: 1rem;
+  font-weight: 700;
+  padding: 15px 3px;
+}
+#left .nav .logo h2 {
+  text-align: left;
+  font-size: 20px;
+  color: #4a4a4a;
+  line-height: 1rem;
+  font-weight: 400;
+  padding: 10px 3px;
+  border-radius: 8px;
+  border-bottom: 2px #ec1839 solid;
+}
+
+#left .menu {
+  display: flex;
+  width: 100%;
+}
+
+#left .menu ul {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#left .menu li {
+  width: 100%;
+  text-align: left;
+  line-height: 3rem;
+  border-bottom: 1px solid #e8dfec;
+  transition: 0.5s;
+}
+
+#left .menu li a.active {
+  color: #ec1839;
+  padding-left: 10px;
+}
+
+#left .menu li a {
+  color: black;
+  height: 100%;
+  width: 100%;
+}
+#left .menu li:hover {
+  color: #ec1839;
+  padding-left: 10px;
+}
+
+.nuxt {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  overflow-x: hidden;
+}
+@media only screen and (max-width: 600px) {
+    #left .nav {
+      display: none;
+    }
+    #left .nav-collaped{
+        display: block;
+        right:15px;
+        top:15px;
+    
+    }
+
+    .nuxt {
+        margin:0;
+        padding: 5em 1em;
+    }
+  }
