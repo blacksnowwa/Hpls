@@ -61,23 +61,23 @@ export default {
       }
 ]
   ],
-  middleware: 'auth',
+  // middleware: 'auth',
   
-  axios: {
-    baseURL: 'http://127.0.0.1:3333/api'
-  },
+  // axios: {
+  //   baseURL: 'http://127.0.0.1:3333/api'
+  // },
 
-  auth: {
-    strategies: {
-      local: {
-        endpoints: {
-          login: { url: 'login', method: 'post', propertyName: 'data.token' },
-          user: { url: 'me', method: 'get', propertyName: 'data' },
-          logout: false
-        }
-      }
-    }
-  },
+  // auth: {
+  //   strategies: {
+  //     local: {
+  //       endpoints: {
+  //         login: { url: 'login', method: 'post', propertyName: 'data.token' },
+  //         user: { url: 'me', method: 'get', propertyName: 'data' },
+  //         logout: false
+  //       }
+  //     }
+  //   }
+  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
