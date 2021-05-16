@@ -61,7 +61,7 @@ export default {
  
     async logout() {
       this.isActive = false;
-      await this.$auth.logout();
+      // await this.$auth.logout();
       this.$router.push("/login");
     },
     closeMenu() {
