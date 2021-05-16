@@ -73,6 +73,11 @@
 <script>
 export default {
   props: ["tableData", "options"],
+     data(){
+      return{
+        addCount:0
+      }
+    },
   methods: {
     deleteRow(index, rows) {
       this.tableData.splice(index, 1);

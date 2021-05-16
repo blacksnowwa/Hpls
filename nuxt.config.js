@@ -1,4 +1,5 @@
 export default {
+  target: 'static',
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -6,7 +7,7 @@ export default {
   head: {
     title: 'hpls',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'th'
     },
     meta: [
       { charset: 'utf-8' },
@@ -38,6 +39,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/moment'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

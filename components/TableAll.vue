@@ -249,7 +249,11 @@
 
   export default {
     props: ['tableData'],
-  
+    data(){
+      return{
+        addCount:0
+      }
+    },
      methods: {
     
 

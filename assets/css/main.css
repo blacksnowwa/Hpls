@@ -13,6 +13,17 @@
   justify-content: space-around;
 }
 
+  /* animation */
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
+
+  /* ///////////////// */
+
 #left {
   display: flex;
   background-color: #f2f2fc;
@@ -109,12 +120,18 @@
 }
 @media only screen and (max-width: 600px) {
     #left .nav {
-      display: none;
+      display: flex;
+      position: fixed;
+      height: 100vh;
+      width: 100vw;
+      z-index: 1000;
     }
     #left .nav-collaped{
         display: block;
+        position: fixed;
         right:15px;
         top:15px;
+        z-index: 10000;
     
     }
 
