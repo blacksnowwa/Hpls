@@ -6,7 +6,7 @@
 </template>
 <script>
 export default {
-    
+      layout: "left",
 }
 </script>
 <style >

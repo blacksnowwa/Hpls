@@ -21,7 +21,7 @@
             >
           </li>
           <li>
-            <nuxt-link to="/profile"
+            <nuxt-link to="#" 
               ><font-awesome-icon :icon="['fas', 'user']" /> โปรไฟล</nuxt-link
             >
           </li>
