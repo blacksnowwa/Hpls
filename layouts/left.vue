@@ -4,25 +4,37 @@
       <font-awesome-icon v-if="!isCollaped" :icon="['fas', 'bars']" />
       <font-awesome-icon v-if="isCollaped" :icon="['fas', 'times']" />
     </button>
-    <left-nav :isCollaped="isCollaped" />
-    <div class="nuxt">
 
+    <left-nav />
+    <div class="nuxt">
       <Nuxt />
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
-  // middleware: "auth",
+  middleware: "auth",
   data() {
     return {
-      isCollaped: false
+     
     };
+  },
+
+
+  computed:{
+    ...mapGetters({
+      isCollaped: 'isCollaped'
+    })
+
+
   },
 
   methods: {
     onCollaped() {
-      this.isCollaped = !this.isCollaped;
+      this.$store.commit('collap')
+      console.log("state");
+      // this.isCollaped = !this.isCollaped;
     }
   }
 };

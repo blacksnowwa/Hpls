@@ -11,8 +11,47 @@ export default {
   layout: "left",
   data() {
     return {
-  
+  allData:[],
+  table:[]
     };
+  },
+   async asyncData({ app }) {
+    try {
+      const all = await app.$axios.$get("statement")
+      return {
+        allData:all
+      };
+    } catch (error) {}
+  },
+  created(){
+    this.$store.commit('closemenu')
+    for(let i in this.allData){
+      if(i == 0){
+        this.table.push({
+          date:this.allData[i].date,
+          username:this.allData[i].username,
+          send:this.allData[i].send,
+        })
+      }
+      else
+      if(this.allData[i].date == this.allData[i-1].date && this.allData[i].username == this.allData[i-1].username){
+
+         this.table.find(x=>{
+            return x.date == this.allData[i].date && x.username == this.allData[i].username
+          }).send += this.allData[i].send
+          // console.log('aaaa==..',a);
+
+      }else {
+          this.table.push({
+          date:this.allData[i].date,
+          username:this.allData[i].username,
+          send:this.allData[i].send,
+      })
+
+      }
+    }
+    console.log('table',this.table);
+    
   },
    computed: {
     tableData() {

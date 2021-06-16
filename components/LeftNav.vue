@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div class="nav" v-if="showNav">
+    <div class="nav" v-if="window || isCollaped">
       <div class="logo">
   
         <!-- <img src="logochg.jpg"/> -->
@@ -10,7 +10,7 @@
       <div class="menu">
         <ul>
           <li>
-            <nuxt-link to="/" class="active"
+            <nuxt-link to="/" class="active" @click="closeMenu"
               ><font-awesome-icon :icon="['fas', 'home']" /> หน้าหลัก</nuxt-link
             >
           </li>
@@ -21,7 +21,7 @@
             >
           </li>
           <li>
-            <nuxt-link to="#" 
+            <nuxt-link to="/profile" 
               ><font-awesome-icon :icon="['fas', 'user']" /> โปรไฟล</nuxt-link
             >
           </li>
@@ -43,7 +43,6 @@
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["isCollaped"],
   data() {
     return {
       isActive: false,
@@ -52,7 +51,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isAuthenticated", "loggedInUser"]),
+    ...mapGetters(["isAuthenticated", "loggedInUser","isCollaped"]),
+
+    window(){
+      return window.innerWidth > 600
+    }
  
   
   },
@@ -61,11 +64,12 @@ export default {
  
     async logout() {
       this.isActive = false;
-      // await this.$auth.logout();
+      await this.$auth.logout();
       this.$router.push("/login");
     },
     closeMenu() {
-      this.isActive = false;
+      console.log('closeMenu');
+      this.$store.commit('closemenu')
     }
   },
 

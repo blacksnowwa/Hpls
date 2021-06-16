@@ -25,6 +25,9 @@ export default {
     layout : "left",
   computed: {
     ...mapGetters(['loggedInUser'])
+  },
+  created(){
+    this.$store.commit('closemenu')
   }
 }
 </script>

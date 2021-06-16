@@ -50,7 +50,7 @@ import Notification from '~/components/Notification'
 
 export default {
 
-    // middleware: 'guest',
+    middleware: 'guest',
   components: {
     Notification,
   },
@@ -66,12 +66,12 @@ export default {
   methods: {
     async login() {
       try {
-        // await this.$auth.loginWith('local', {
-        //   data: {
-        //   email: this.email,
-        //   password: this.password
-        //   }
-        // })
+        await this.$auth.loginWith('local', {
+          data: {
+          email: this.email,
+          password: this.password
+          }
+        })
 
         this.$router.push('/')
       } catch (e) {

@@ -4,7 +4,7 @@
     <el-button @click="saveAll">Save All</el-button>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column type="index"> </el-table-column>
-      <el-table-column prop="name" label="w.5/2" width="400">
+      <el-table-column prop="name" :label="loggedInUser.username" width="400">
         <template slot-scope="scope">
           <!-- <el-input size="small"
             style="text-align:center"
@@ -14,7 +14,7 @@
               v-for="item in options"
               :key="item.value"
               :label="item.label"
-              :value="item.value"
+              :value="item.Name"
             >
             </el-option>
           </el-select>
@@ -35,7 +35,6 @@
             size="small"
             style="text-align:center"
             v-model="scope.row.recive"
-            :disabled="scope.$index < addCount"
           ></el-input>
         </template>
       </el-table-column>
@@ -58,26 +57,31 @@
           >
             Save
           </el-button>
-               <el-button
+          <el-button
             @click.native.prevent="deleteRow(scope.$index, scope.row)"
-              type="text"
+            type="text"
             size="small"
           >
-               Delete
+            Delete
           </el-button>
-          </template>
-       </el-table-column>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 <script>
+import moment from "moment";
+import { mapGetters } from "vuex";
 export default {
   props: ["tableData", "options"],
-     data(){
-      return{
-        addCount:0
-      }
-    },
+  data() {
+    return {
+      addCount: 0
+    };
+  },
+  computed: {
+    ...mapGetters(["loggedInUser"])
+  },
   methods: {
     deleteRow(index, rows) {
       this.tableData.splice(index, 1);
@@ -85,12 +89,19 @@ export default {
     },
     saveRow(index, rows) {
       //  api
+      console.log("index---> ", index);
+      console.log("row---> ", rows);
+      const test = this.$axios.$get("statement").then(res => {
+        console.log("data", res);
+      });
     },
     addRow: function() {
       let newRow = {
-        name: "ผ้าห่มขาว",
-        send: "",
-        recive: ""
+        name: this.options[this.addCount].Name,
+        itemId: this.options[this.addCount].value,
+        send: 0,
+        recive: 0,
+        out: 0
       };
       this.tableData = [newRow, ...this.tableData];
       ++this.addCount;
@@ -98,6 +109,26 @@ export default {
     saveAll: function() {
       // api
       console.log(JSON.stringify(this.disabledList));
+      console.log("data: ", this.tableData);
+      const props = [];
+      for (let i in this.tableData) {
+        props.push({
+          username: this.$auth.user.username,
+          date: moment().format("YYYY-MM-DD"),
+          itemId: this.options.find(x => x.label == this.tableData[i].name).value,
+          item: this.tableData[i].name,
+          send: this.tableData[i].send,
+          recive: this.tableData[i].recive,
+          out: this.tableData[i].out
+        });
+      }
+      console.log('props',props);
+      const save = this.$axios.$post("statement/saveall", props).then(res => {
+        console.log("res", res);
+      });
+      const config = this.$axios.$post("config/create", props).then(res => {
+        console.log("config", res);
+      });
     }
   }
 };
