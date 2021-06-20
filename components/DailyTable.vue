@@ -50,13 +50,13 @@
 
       <el-table-column label="Operations" width="120">
         <template slot-scope="scope">
-          <el-button
+          <!-- <el-button
             @click.native.prevent="saveRow(scope.$index, scope.row)"
             type="text"
             size="small"
           >
             Save
-          </el-button>
+          </el-button> -->
           <el-button
             @click.native.prevent="deleteRow(scope.$index, scope.row)"
             type="text"
@@ -105,6 +105,7 @@ export default {
       };
       this.tableData = [newRow, ...this.tableData];
       ++this.addCount;
+      console.log("addRow");
     },
     saveAll: function() {
       // api
@@ -115,16 +116,22 @@ export default {
         props.push({
           username: this.$auth.user.username,
           date: moment().format("YYYY-MM-DD"),
-          itemId: this.options.find(x => x.label == this.tableData[i].name).value,
+          itemId: this.options.find(x => x.label == this.tableData[i].name)
+            .value,
           item: this.tableData[i].name,
           send: this.tableData[i].send,
           recive: this.tableData[i].recive,
           out: this.tableData[i].out
         });
       }
-      console.log('props',props);
+      console.log("props", props);
       const save = this.$axios.$post("statement/saveall", props).then(res => {
         console.log("res", res);
+        this.$notify({
+          title: "บันทึกข้อมูลสำเร็จ",
+          message: "ข้อมูลได้ถูกส่งเรียบร้อยแล้ว",
+          type: "success"
+        });
       });
       const config = this.$axios.$post("config/create", props).then(res => {
         console.log("config", res);

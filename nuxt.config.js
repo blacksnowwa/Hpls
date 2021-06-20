@@ -64,7 +64,8 @@ export default {
   middleware: 'auth',
   
   axios: {
-    baseURL: 'http://127.0.0.1:3333/api'
+    // baseURL: 'http://127.0.0.1:3333/api' for localhost
+    baseURL: 'https://hpls.herokuapp.com/api'
   },
 
   auth: {
