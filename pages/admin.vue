@@ -53,9 +53,12 @@ export default {
   },
   computed: {
     dataFilter() {
-      return this.tableData.filter(
-        x => x.date == moment().format("YYYY-MM-DD")
-      );
+      return this.tableData
+        .filter(x => x.date == moment().format("YYYY-MM-DD"))
+        .map(x => {
+          x.date = moment(x.date, "YYYY-MM-DD").format("DD/MM/YYYY");
+          return x;
+        });
       // .sort(function(a, b){return a.username - b.username});
     }
   }
