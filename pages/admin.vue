@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="tableData" stripe style="width: 100%">
+  <el-table :data="dataFilter" stripe style="width: 100%">
     <el-table-column prop="date" label="วันที่" width="180"> </el-table-column>
     <el-table-column prop="username" label="ห้อง" width="180">
     </el-table-column>
@@ -42,14 +42,22 @@ export default {
   },
   async asyncData({ app }) {
     try {
-      const table = await app.$axios.$get("statement")
+      const table = await app.$axios.$get("statement");
       return {
-        tableData: table.map(x=>{
-            x.date = moment(x.date).format('YYYY-MM-DD')
-            return x
+        tableData: table.map(x => {
+          x.date = moment(x.date).format("YYYY-MM-DD");
+          return x;
         })
       };
     } catch (error) {}
+  },
+  computed: {
+    dataFilter() {
+      return this.tableData.filter(
+        x => x.date == moment().format("YYYY-MM-DD")
+      );
+      // .sort(function(a, b){return a.username - b.username});
+    }
   }
 };
 </script>
