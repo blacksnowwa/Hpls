@@ -26,6 +26,11 @@
             >
           </li>
           <li>
+            <nuxt-link to="/items" 
+              ><font-awesome-icon :icon="['fas', 'tshirt']" /> จัดการผ้า</nuxt-link
+            >
+          </li>
+          <li>
             <a src="/login" @click="logout"
               ><font-awesome-icon :icon="['fas', 'sign-out-alt']" />
               ออกจากระบบ</a

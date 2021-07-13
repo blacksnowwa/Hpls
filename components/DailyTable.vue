@@ -1,73 +1,99 @@
 <template>
-  <div>
-    <el-button @click="addRow">Add</el-button>
-    <el-button @click="saveAll">Save All</el-button>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column type="index"> </el-table-column>
-      <el-table-column prop="name" :label="loggedInUser.username" width="400">
-        <template slot-scope="scope">
-          <!-- <el-input size="small"
+  <el-card shadow="never">
+    <div slot="header" class="clearfix flex justify-between" >
+      <h1 class="text-2xl">สั่งผ้ารายวัน<i class="el-icon-s-claim ml-2"></i></h1>
+      <!-- <el-button style="float: right; padding: 3px 0" type="text"
+        >Operation button</el-button
+      > -->
+      <div>
+        <el-button type="primary" icon="el-icon-circle-plus" @click="addRow"
+          >Add</el-button
+        >
+        <el-button type="success" icon="el-icon-check" @click="saveAll"
+          >Save All</el-button
+        >
+      </div>
+    </div>
+    <div>
+      <el-table :data="tableData" style="width: 100%">
+        <el-table-column type="index" width="80"> </el-table-column>
+        <el-table-column
+          align="center"
+          prop="name"
+          :label="loggedInUser.username"
+          width="300"
+        >
+          <template slot-scope="scope">
+            <!-- <el-input size="small"
             style="text-align:center"
             v-model="scope.row.name" controls-position="right"></el-input> -->
-          <el-select v-model="scope.row.name" placeholder="Select">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.Name"
+            <el-select
+              style="width: 100%"
+              v-model="scope.row.name"
+              placeholder="Select"
             >
-            </el-option>
-          </el-select>
-        </template>
-      </el-table-column>
-      <el-table-column prop="send" label="ส่ง" width="100">
-        <template slot-scope="scope">
-          <el-input
-            size="small"
-            style="text-align:center"
-            v-model="scope.row.send"
-          ></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column prop="recive" label="รับ" width="100">
-        <template slot-scope="scope">
-          <el-input
-            size="small"
-            style="text-align:center"
-            v-model="scope.row.recive"
-          ></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column prop="remain" label="ค้าง" width="100">
-        <template slot-scope="scope">
-          <el-input
-            size="small"
-            style="text-align:center"
-            v-model="scope.row.remian"
-          ></el-input>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="Operations" width="120">
-        <template slot-scope="scope">
-          <!-- <el-button
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.Name"
+              >
+              </el-option>
+            </el-select>
+          </template>
+        </el-table-column>
+        <el-table-column prop="send" align="center" label="ส่ง" width="80">
+          <template slot-scope="scope">
+            <el-input
+              size="small"
+              style="text-align:center"
+              v-model="scope.row.send"
+            ></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column prop="recive" align="center" label="รับ" width="80">
+          <template slot-scope="scope">
+            <el-input
+              size="small"
+              style="text-align:center"
+              v-model="scope.row.recive"
+            ></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column prop="remain" align="center" label="ค้าง" width="80">
+          <template slot-scope="scope">
+            <el-input
+              size="small"
+              style="text-align:center"
+              v-model="scope.row.remian"
+            ></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column />
+        <el-table-column label="จัดการ" width="120">
+          <template slot-scope="scope">
+            <!-- <el-button
             @click.native.prevent="saveRow(scope.$index, scope.row)"
             type="text"
             size="small"
           >
             Save
           </el-button> -->
-          <el-button
-            @click.native.prevent="deleteRow(scope.$index, scope.row)"
-            type="text"
-            size="small"
-          >
-            Delete
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-  </div>
+            <el-button
+              @click.native.prevent="deleteRow(scope.$index, scope.row)"
+              type="danger"
+              round
+              plain
+              icon="el-icon-delete"
+              size="small"
+            >
+              Delete
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+  </el-card>
 </template>
 <script>
 import moment from "moment";
