@@ -6,7 +6,7 @@
       </h1>
       <div>
         <el-button type="primary" icon="el-icon-circle-plus" @click="add"
-          >Add</el-button
+          >เพิ่มข้อมูล</el-button
         >
 
         <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
@@ -22,7 +22,14 @@
         </el-dialog>
       </div>
     </div>
-    <el-table :data="tableData" stripe style="width: 100%">
+    <el-table
+      :data="tableData"
+      v-loading.fullscreen.lock="load"
+      element-loading-text="กำลังโหลด..."
+      element-loading-spinner="el-icon-loading"
+      stripe
+      style="width: 100%"
+    >
       <el-table-column prop="id" label="ID" width="180"> </el-table-column>
       <el-table-column prop="Name" label="ชื่อ" width="180"> </el-table-column>
       <el-table-column prop="created_at" label="วันที่สร้าง"> </el-table-column>
@@ -43,14 +50,14 @@
             @click.native.prevent="edit(scope.$index, scope.row)"
             size="small"
           >
-            Edit
+            แก้ไข
           </el-button>
           <el-popconfirm
-            confirm-button-text="OK"
-            cancel-button-text="No, Thanks"
+            confirm-button-text="ยืนยัน"
+            cancel-button-text="ไม่ลบ"
             icon="el-icon-info"
             icon-color="red"
-            title="Are you sure to delete this?"
+            title="ยืนยันที่จะลบข้อมูลนี้หรือไม่ ?"
             @confirm="deleteRow(scope.$index, scope.row)"
           >
             <!-- @click.native.prevent="deleteRow(scope.$index, scope.row)" -->
@@ -62,7 +69,7 @@
               icon="el-icon-delete"
               size="small"
             >
-              Delete
+              ลบข้อมูล
             </el-button>
           </el-popconfirm>
         </template>
@@ -77,6 +84,7 @@ export default {
   layout: "left",
   data() {
     return {
+      load: false,
       tableData: [],
       dialogFormVisible: false,
       formLabelWidth: "120px",
@@ -109,23 +117,30 @@ export default {
   },
   methods: {
     deleteRow(index, rows) {
-      this.$axios.post("items/delete", { id: rows.id }).then(res => {
-        if (res.status == 200) {
-          this.tableData.splice(index, 1);
-          this.$notify({
-            title: "ลบข้อมูลสำเร็จ",
-            message: `Id = ${rows.id} Name = ${rows.Name} ได้ถูกลบเรียลร้อยแล้ว`,
-            type: "success"
-          });
-          if (this.addCount > 0) --this.addCount;
-        } else {
-          this.$notify({
-            title: "เกิดข้อผิดพลาด",
-            message: `ไม่สามารถลบข้อมูลได้`,
-            type: "Error"
-          });
-        }
-      });
+      this.load = true;
+      this.$axios
+        .post("items/delete", { id: rows.id })
+        .then(res => {
+          if (res.status == 200) {
+            this.tableData.splice(index, 1);
+            this.$notify({
+              title: "ลบข้อมูลสำเร็จ",
+              message: `Id = ${rows.id} Name = ${rows.Name} ได้ถูกลบเรียลร้อยแล้ว`,
+              type: "success"
+            });
+            if (this.addCount > 0) --this.addCount;
+          } else {
+            this.$notify({
+              title: "เกิดข้อผิดพลาด",
+              message: `ไม่สามารถลบข้อมูลได้`,
+              type: "Error"
+            });
+          }
+            this.load = false;
+        })
+        .catch(err => {
+          this.load = false;
+        });
     },
     notify(title, mes, type) {
       this.$notify({
@@ -152,6 +167,7 @@ export default {
       };
     },
     Confirm() {
+      this.load = true
       if (this.action == "add") {
         this.$axios.post("items/create", this.form).then(res => {
           if (res.status == 200) {
@@ -162,6 +178,7 @@ export default {
               message: `Id = ${res.data.id} Name = ${res.data.Name}`,
               type: "success"
             });
+            this.load = false
           }
         });
       } else if (this.action == "edit") {
@@ -185,6 +202,7 @@ export default {
               type: "Error"
             });
           }
+          this.load = false
         });
       }
       this.dialogFormVisible = false;
