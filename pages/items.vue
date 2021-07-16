@@ -5,9 +5,21 @@
         จัดการผ้า<font-awesome-icon class="ml-2" :icon="['fas', 'tshirt']" />
       </h1>
       <div>
-        <el-button type="primary" icon="el-icon-circle-plus" @click="addRow"
+        <el-button type="primary" icon="el-icon-circle-plus" @click="add"
           >Add</el-button
         >
+
+        <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+          <el-form :model="form">
+            <el-form-item label="ชื่อ" :label-width="formLabelWidth">
+              <el-input v-model="form.Name" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="Confirm">Confirm</el-button>
+          </span>
+        </el-dialog>
       </div>
     </div>
     <el-table :data="tableData" stripe style="width: 100%">
@@ -28,20 +40,31 @@
             round
             plain
             icon="el-icon-edit"
+            @click.native.prevent="edit(scope.$index, scope.row)"
             size="small"
           >
             Edit
           </el-button>
-          <el-button
-            @click.native.prevent="deleteRow(scope.$index, scope.row)"
-            type="danger"
-            round
-            plain
-            icon="el-icon-delete"
-            size="small"
+          <el-popconfirm
+            confirm-button-text="OK"
+            cancel-button-text="No, Thanks"
+            icon="el-icon-info"
+            icon-color="red"
+            title="Are you sure to delete this?"
+            @confirm="deleteRow(scope.$index, scope.row)"
           >
-            Delete
-          </el-button>
+            <!-- @click.native.prevent="deleteRow(scope.$index, scope.row)" -->
+            <el-button
+              slot="reference"
+              type="danger"
+              round
+              plain
+              icon="el-icon-delete"
+              size="small"
+            >
+              Delete
+            </el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -54,7 +77,15 @@ export default {
   layout: "left",
   data() {
     return {
-      tableData: []
+      tableData: [],
+      dialogFormVisible: false,
+      formLabelWidth: "120px",
+      action: "",
+      editId: 0,
+      form: {
+        Name: ""
+      },
+      dialogTitle: "เพิ่มรายการผ้า"
     };
   },
   async asyncData({ app }) {
@@ -78,9 +109,85 @@ export default {
   },
   methods: {
     deleteRow(index, rows) {
-      console.log("123");
-      this.tableData.splice(index, 1);
-      if (this.addCount > 0) --this.addCount;
+      this.$axios.post("items/delete", { id: rows.id }).then(res => {
+        if (res.status == 200) {
+          this.tableData.splice(index, 1);
+          this.$notify({
+            title: "ลบข้อมูลสำเร็จ",
+            message: `Id = ${rows.id} Name = ${rows.Name} ได้ถูกลบเรียลร้อยแล้ว`,
+            type: "success"
+          });
+          if (this.addCount > 0) --this.addCount;
+        } else {
+          this.$notify({
+            title: "เกิดข้อผิดพลาด",
+            message: `ไม่สามารถลบข้อมูลได้`,
+            type: "Error"
+          });
+        }
+      });
+    },
+    notify(title, mes, type) {
+      this.$notify({
+        title: title,
+        message: mes,
+        type: type
+      });
+    },
+    add() {
+      this.dialogTitle = "เพิ่มรายการ";
+      this.action = "add";
+      this.dialogFormVisible = true;
+    },
+    edit(index, row) {
+      this.form.Name = row.Name;
+      this.dialogTitle = "แก้ไขรายการ";
+      this.action = "edit";
+      this.dialogFormVisible = true;
+      this.editId = row.id;
+    },
+    initForm() {
+      this.form = {
+        Name: ""
+      };
+    },
+    Confirm() {
+      if (this.action == "add") {
+        this.$axios.post("items/create", this.form).then(res => {
+          if (res.status == 200) {
+            this.tableData.push(res.data);
+            this.initForm();
+            this.$notify({
+              title: "เพิ่มข้อมูลสำเร็จ",
+              message: `Id = ${res.data.id} Name = ${res.data.Name}`,
+              type: "success"
+            });
+          }
+        });
+      } else if (this.action == "edit") {
+        let obj = {
+          id: this.editId,
+          Name: this.form.Name
+        };
+        this.$axios.post("items/update", obj).then(res => {
+          if (res.status == 200 && res.data == 1) {
+            let index = this.tableData.findIndex(x => x.id == this.editId);
+            this.tableData[index].Name = this.form.Name;
+            this.$notify({
+              title: "แก้ไขข้อมูลสำเร็จ",
+              message: `Id = ${this.editId} Name = ${this.form.Name}`,
+              type: "success"
+            });
+          } else {
+            this.$notify({
+              title: "เกิดข้อผิดพลาด",
+              message: `ไม่สามารถแก้ไขข้อมูลได้`,
+              type: "Error"
+            });
+          }
+        });
+      }
+      this.dialogFormVisible = false;
     }
   }
 };
