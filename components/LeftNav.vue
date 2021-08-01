@@ -2,7 +2,6 @@
   <transition name="fade">
     <div class="nav" v-if="window || isCollaped">
       <div class="logo">
-  
         <!-- <img src="logochg.jpg"/> -->
         <h1>HPLS</h1>
         <h2>โรงพยาบาลจุฬารัตน์ 11</h2>
@@ -21,13 +20,20 @@
             >
           </li>
           <li>
-            <nuxt-link to="/profile" 
+            <nuxt-link to="/profile"
               ><font-awesome-icon :icon="['fas', 'user']" /> โปรไฟล</nuxt-link
             >
           </li>
-          <li>
-            <nuxt-link to="/items" 
-              ><font-awesome-icon :icon="['fas', 'tshirt']" /> จัดการผ้า</nuxt-link
+          <li v-if="$auth.user.grade == 'admin'">
+            <nuxt-link to="/items"
+              ><font-awesome-icon :icon="['fas', 'tshirt']" />
+              จัดการผ้า</nuxt-link
+            >
+          </li>
+          <li v-if="$auth.user.grade == 'admin'">
+            <nuxt-link to="/admin"
+              ><font-awesome-icon :icon="['fas', 'unlock-alt']" />
+              Admin</nuxt-link
             >
           </li>
           <li>
@@ -52,41 +58,36 @@ export default {
     return {
       isActive: false,
       showNavbar: true,
-      showNav:true
+      showNav: true
     };
   },
   computed: {
-    ...mapGetters(["isAuthenticated", "loggedInUser","isCollaped"]),
+    ...mapGetters(["isAuthenticated", "loggedInUser", "isCollaped"]),
 
-    window(){
-      return window.innerWidth > 600
+    window() {
+      return window.innerWidth > 600;
     }
- 
-  
   },
 
   methods: {
- 
     async logout() {
       this.isActive = false;
       await this.$auth.logout();
       this.$router.push("/login");
     },
     closeMenu() {
-      console.log('closeMenu');
-      this.$store.commit('closemenu')
+      console.log("closeMenu");
+      this.$store.commit("closemenu");
     }
   },
 
-  watch:{
-    isCollaped:{
-
+  watch: {
+    isCollaped: {
       immediate: true,
 
       handler(v) {
-        this.showNav = window.innerWidth > 600 || v
+        this.showNav = window.innerWidth > 600 || v;
       }
-
     }
   }
 };
