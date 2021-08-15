@@ -4,7 +4,6 @@
     <el-button @click="saveAll">Save All</el-button> -->
     <el-table
       :data="statement"
-      :default-sort="{ prop: 'date', order: 'descending' }"
       border
       :summary-method="getSummaries"
       show-summary
