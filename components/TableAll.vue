@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   props: ["tableData", "statement", "user"],
   data() {
@@ -101,7 +102,9 @@ export default {
     },
     saveRow(index, rows) {
       //  api
-      this.$router.push("/report");
+      const date = moment(rows.date, "DD/MM/YYYY").format("YYYY-MM-DD");
+      console.log("rows", date);
+      this.$router.push(`/report/${date}`);
     },
     addRow: function() {
       var d = new Date();
