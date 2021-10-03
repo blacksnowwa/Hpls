@@ -5,7 +5,7 @@
     </el-table-column>
     <el-table-column prop="item" label="รายการ"> </el-table-column>
     <el-table-column prop="send" label="ส่ง"> </el-table-column>
-    <el-table-column prop="recive" label="รับ"> </el-table-column>
+    <el-table-column prop="recive" label="เบิก"> </el-table-column>
     <el-table-column prop="out" label="ค้าง"> </el-table-column>
   </el-table>
 </template>

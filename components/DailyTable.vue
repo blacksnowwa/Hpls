@@ -44,7 +44,7 @@
           ></el-input>
         </template>
       </el-table-column>
-      <el-table-column prop="recive" align="center" label="รับ" width="80">
+      <el-table-column prop="recive" align="center" label="เบิก" width="80">
         <template slot-scope="scope">
           <el-input
             size="small"
