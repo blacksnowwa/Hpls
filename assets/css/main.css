@@ -5,6 +5,12 @@
   font-family: "Poppins", "Itim", sans-serif;
 }
 
+#admin {
+  color: #000;
+  font-size: 20px;
+
+}
+
 #defalt {
   display: flex;
   flex-direction: column;
