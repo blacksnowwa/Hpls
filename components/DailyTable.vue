@@ -126,34 +126,47 @@ export default {
       console.log("addRow");
     },
     saveAll: function() {
-      // api
-      console.log(JSON.stringify(this.disabledList));
-      console.log("data: ", this.tableData);
-      const props = [];
-      for (let i in this.tableData) {
-        props.push({
-          username: this.$auth.user.username,
-          date: moment().format("YYYY-MM-DD"),
-          itemId: this.options.find(x => x.label == this.tableData[i].name)
-            .value,
-          item: this.tableData[i].name,
-          send: this.tableData[i].send,
-          recive: this.tableData[i].recive,
-          out: this.tableData[i].out
+      const format = "hh:mm:ss";
+      const now = moment(),
+        beforeTime = moment("00:00:00", format),
+        afterTime = moment("22:30:01", format);
+      console.log("moment", now.isBetween(beforeTime, afterTime));
+      if (now.isBetween(beforeTime, afterTime)) {
+        console.log(JSON.stringify(this.disabledList));
+        console.log("data: ", this.tableData);
+        let props = [];
+        for (let i in this.tableData) {
+          props.push({
+            username: this.$auth.user.username,
+            date: moment().format("YYYY-MM-DD"),
+            itemId: this.options.find(x => x.label == this.tableData[i].name)
+              .value,
+            item: this.tableData[i].name,
+            send: this.tableData[i].send,
+            recive: this.tableData[i].recive,
+            out: this.tableData[i].out
+          });
+        }
+        const filterProps = props.filter(x => x.out + x.send + x.recive > 0);
+        console.log("props", props);
+        if (filterProps && filterProps.length > 0) {
+          const save = this.$axios
+            .$post("statement/saveall", filterProps)
+            .then(res => {
+              console.log("res", res);
+              this.$notify({
+                title: "บันทึกข้อมูลสำเร็จ",
+                message: "ข้อมูลได้ถูกส่งเรียบร้อยแล้ว",
+                type: "success"
+              });
+            });
+        }
+        const config = this.$axios.$post("config/create", props).then(res => {
+          console.log("config", res);
         });
+      } else {
+        this.$message.error("ไม่สามารถส่งข้อมูลหลัง 08.30 น. ได้");
       }
-      console.log("props", props);
-      const save = this.$axios.$post("statement/saveall", props).then(res => {
-        console.log("res", res);
-        this.$notify({
-          title: "บันทึกข้อมูลสำเร็จ",
-          message: "ข้อมูลได้ถูกส่งเรียบร้อยแล้ว",
-          type: "success"
-        });
-      });
-      const config = this.$axios.$post("config/create", props).then(res => {
-        console.log("config", res);
-      });
     }
   }
 };
