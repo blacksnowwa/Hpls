@@ -13,7 +13,7 @@
         <template slot-scope="scope">
           <el-input
             size="small"
-            style="text-align:center"
+            style="text-align:center;"
             v-model="scope.row.date"
             controls-position="right"
           ></el-input>
@@ -33,7 +33,9 @@
             v-model="scope.row[item.username]"
             :disabled="scope.$index < addCount"
           ></el-input> -->
-          {{ scope.row[item.username] || 0 }}
+          <span style="color: #000;">
+            {{ scope.row[item.username] || 0 }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column prop="sum" label="ยอดรวม" width="80"> </el-table-column>
