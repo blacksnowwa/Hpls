@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div>
     <el-table :data="dataFilter" stripe style="width: 100%">
       <el-table-column prop="date" label="วันที่" width="180">
@@ -51,12 +52,23 @@
       </span>
     </el-dialog>
   </div>
+=======
+  <el-table id="admin" :data="dataFilter" stripe style="width: 100%">
+    <el-table-column prop="date" label="วันที่" width="180"> </el-table-column>
+    <el-table-column prop="username" label="ห้อง" width="180">
+    </el-table-column>
+    <el-table-column prop="item" label="รายการ" width="340"> </el-table-column>
+    <el-table-column prop="send" label="ส่ง" width="140"> </el-table-column>
+    <el-table-column prop="recive" label="เบิก" width="140"> </el-table-column>
+    <el-table-column prop="out" label="ค้าง" width="140"> </el-table-column>
+  </el-table>
+>>>>>>> b300e7428f94a93bbe9792a7ce7745c1ecc234d2
 </template>
 
 <script>
 import moment from "moment";
 export default {
-  layout: "left",
+  layout: "guyza55",
   data() {
     return {
       tableData: [],
