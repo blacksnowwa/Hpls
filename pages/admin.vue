@@ -1,14 +1,17 @@
 <template>
   <div>
-    <el-table :data="dataFilter" stripe style="width: 100%">
+    <el-table id="admin" :data="dataFilter" stripe style="width: 100%">
       <el-table-column prop="date" label="วันที่" width="180">
       </el-table-column>
       <el-table-column prop="username" label="ห้อง" width="180">
       </el-table-column>
-      <el-table-column prop="item" label="รายการ"> </el-table-column>
-      <el-table-column prop="send" label="ส่ง"> </el-table-column>
-      <el-table-column prop="recive" label="รับ"> </el-table-column>
-      <el-table-column prop="out" label="ค้าง"> </el-table-column>
+      <el-table-column prop="item" label="รายการ" width="340">
+      </el-table-column>
+      <el-table-column prop="send" label="ส่ง" width="140"> </el-table-column>
+      <el-table-column prop="recive" label="เบิก" width="140">
+      </el-table-column>
+      <el-table-column prop="out" label="ค้าง" width="140"> </el-table-column>
+      <el-table-column prop="" label="" width="auto"> </el-table-column>
       <el-table-column label="จัดการ" width="120">
         <template slot-scope="scope">
           <el-button
@@ -50,7 +53,8 @@
         <el-button type="primary" @click="handleSaveEdit">Confirm</el-button>
       </span>
     </el-dialog>
-    <el-table id="admin" :data="dataFilter" stripe style="width: 100%">
+
+    <!-- <el-table id="admin" :data="dataFilter" stripe style="width: 100%">
       <el-table-column prop="date" label="วันที่" width="180">
       </el-table-column>
       <el-table-column prop="username" label="ห้อง" width="180">
@@ -61,7 +65,7 @@
       <el-table-column prop="recive" label="เบิก" width="140">
       </el-table-column>
       <el-table-column prop="out" label="ค้าง" width="140"> </el-table-column>
-    </el-table>
+    </el-table> -->
   </div>
 </template>
 
