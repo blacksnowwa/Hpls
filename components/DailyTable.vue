@@ -7,6 +7,15 @@
       <el-button type="success" icon="el-icon-check" @click="saveAll"
         >Save All</el-button
       >
+      <el-date-picker
+        class="ml-3"
+        v-model="date"
+        type="date"
+        placeholder="Pick a date"
+        format="dd/MM/yyyy"
+      >
+        >
+      </el-date-picker>
     </div>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column type="index" width="80"> </el-table-column>
@@ -94,7 +103,8 @@ export default {
   props: ["tableData", "options"],
   data() {
     return {
-      addCount: 0
+      addCount: 0,
+      date: moment().format()
     };
   },
   computed: {
@@ -138,7 +148,7 @@ export default {
         for (let i in this.tableData) {
           props.push({
             username: this.$auth.user.username,
-            date: moment().format("YYYY-MM-DD"),
+            date: moment(this.date).format("YYYY-MM-DD"),
             itemId: this.options.find(x => x.label == this.tableData[i].name)
               .value,
             item: this.tableData[i].name,
